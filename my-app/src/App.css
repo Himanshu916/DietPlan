@@ -1,0 +1,8 @@
+@import "./styles/home.css";
+@import "./styles/dietCard.css";
+.heading
+{
+  text-align: center;
+  margin: 0;
+  padding-top: 1rem;
+}

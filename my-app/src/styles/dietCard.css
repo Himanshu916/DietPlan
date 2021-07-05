@@ -1,0 +1,72 @@
+h2,h4
+{
+    margin:0;
+}
+
+.diets
+{
+    max-width: 800px;
+    margin: 0 auto;
+    padding:2rem;
+}
+.dietCard
+{
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid black;
+    padding-bottom: 1rem;;
+    margin-top: 1rem;;
+}
+.dietCard ul
+{
+    padding:1rem;
+    
+}
+.dietCard  h2
+{
+    align-self: center;
+}
+.dietCard .button
+{
+    align-self: center;
+}
+
+.dietCard ul li
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style-type: none;
+}
+
+.btn-particular
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    
+}
+
+.deleted
+{
+    max-width:800px;
+    padding:1.5rem;
+    background-color: red;
+    color:white;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 2rem auto;
+
+}
+
+.createDietPlan
+{
+    border:1px solid Green;
+    padding:1rem;
+    max-width: 400px;
+    position: relative;
+    left:12%;
+
+}
