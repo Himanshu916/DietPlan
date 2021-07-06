@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import TextField from '@material-ui/core/TextField';
 // import { TextareaAutosize } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
@@ -9,7 +9,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import axios from "axios"
 import {useState} from "react";
 import {Link} from "react-router-dom"
- const InputData = ({from}) => {
+import Notification from './Notification';
+ const InputData = ({from,id}) => {
     const initialState = {
         name:"",
         email:"",
@@ -28,7 +29,29 @@ import {Link} from "react-router-dom"
         deficitPercentage:0
     }
     const [details,setDetails]=useState(initialState)
-    
+    const [notif,setNotif] = useState({boolean:false,message:""})
+    useEffect(()=>
+    {
+        if(id)
+        {
+            (async()=>
+            {
+        
+                try
+                {
+                    const {data} = await axios.get("https://keto-diet-kyloapps.herokuapp.com/diet/"+id)
+                    setDetails(data[0])
+                }catch(error)
+                {
+                    console.log(error.response)
+                }
+            })()
+        }
+       
+       
+        
+
+    },[id])
     const changeHandler =(e)=>
     {
         
@@ -42,8 +65,10 @@ import {Link} from "react-router-dom"
         {
             console.log(from)
             try{
-                const {data} = await axios.put("https://keto-diet-kyloapps.herokuapp.com/diet",details)
+                const {data} = await axios.put("https://keto-diet-kyloapps.herokuapp.com/diet",{...details,id})
                 console.log(data)
+                setNotif({...notif,boolean:true,message:"Successfully Updated"})
+                
             }catch(error)
             {
                 console.log(error.response)
@@ -51,10 +76,11 @@ import {Link} from "react-router-dom"
         }
         else{
 
-        console.log(from)
         try{
+            console.log(details,"yha kya h")
             const {data} = await axios.post("https://keto-diet-kyloapps.herokuapp.com/diet",details)
-            console.log(data)
+            console.log(data,"created data")
+           setNotif({...notif,boolean:true,message:"Successfully Created"})
         }catch(error)
         {
             console.log(error.response)
@@ -62,6 +88,8 @@ import {Link} from "react-router-dom"
     }
 
     }
+
+    
     return (
         <div className="diet">
             <form onSubmit={(e)=>submitHandler(e,details)} className="diet-details" noValidate autoComplete="off">
@@ -114,6 +142,7 @@ import {Link} from "react-router-dom"
                     
                 </div>
             </form>
+            {notif.boolean && <Notification message={notif.message}/>}
         </div>
     )
 }

@@ -1,0 +1,23 @@
+.navigation
+{
+    max-width: 800px;
+    margin:0 auto;
+    display:flex;
+    padding:1rem;
+    
+}
+
+.navigation li
+{
+    list-style-type: none;
+    margin-right: 20px;
+    cursor: pointer;
+    
+    
+}
+.navigation li a
+{
+    text-decoration: none;
+    font-size: 1.5rem;
+    color:navy;
+}

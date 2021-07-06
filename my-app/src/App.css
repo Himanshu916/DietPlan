@@ -1,5 +1,7 @@
 @import "./styles/home.css";
 @import "./styles/dietCard.css";
+@import "./styles/notification.css";
+@import "./styles/navigation.css" ;
 .heading
 {
   text-align: center;

@@ -1,6 +1,7 @@
 h2,h4
 {
     margin:0;
+    font-weight: 500;
 }
 
 .diets
@@ -15,7 +16,11 @@ h2,h4
     flex-direction: column;
     max-width: 600px;
     margin: 0 auto;
-    border: 1px solid black;
+    border-radius: 10px;
+    -webkit-box-shadow: 10px -5px 11px 0px rgba(212,208,212,1);
+    -moz-box-shadow: 10px -5px 11px 0px rgba(212,208,212,1);
+    box-shadow: 10px -5px 11px 0px rgba(212,208,212,1);
+    background-color: #faf5fa;
     padding-bottom: 1rem;;
     margin-top: 1rem;;
 }
@@ -60,7 +65,56 @@ h2,h4
     margin: 2rem auto;
 
 }
+.wantSimilarDiets
+{
+    color:orange;
+    max-width:800px;
+    margin: 0 auto;
+    font-size: 2rem;
+    cursor: pointer;
+    text-align: center;
+    padding:1rem;
+}
+.quantity
+{
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 10px -5px 11px 0px rgb(250, 184, 158);
+    -moz-box-shadow: 10px -5px 11px 0px rgb(250, 184, 158);
+    box-shadow: 10px -5px 11px 0px rgb(250, 184, 158);
+    background-color: #f19164;
+    padding-bottom: 1rem;;
+    margin-top: 1rem;;
 
+}
+.quantity p
+{
+    font-size: 1.5rem;
+    color:black
+}
+.similar
+{
+    width:100px;
+    padding:.5rem;
+    font-size: 1rem;
+    background-color: lightgreen;
+    border-radius: 20px;;
+    color:white
+}
+
+.quantity-box
+{
+    display: flex;
+    justify-content: center;
+
+
+}
+.quantity-box button{
+    margin-left: 10px;;
+}
 .createDietPlan
 {
     border:1px solid Green;
@@ -69,4 +123,16 @@ h2,h4
     position: relative;
     left:12%;
 
+}
+
+@media screen and (max-width:600px) {
+    h2
+    {
+        font-size: 1.2rem;
+
+    }
+    h4
+    {
+        font-size: 1rem;
+    }
 }

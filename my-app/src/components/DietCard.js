@@ -15,7 +15,7 @@ import {Link} from "react-router-dom"
             console.log(error.response)
         }
 
-    }
+    } 
     return (
         <div className="dietCard">
             <h2>{diet.name}</h2>
@@ -35,9 +35,9 @@ import {Link} from "react-router-dom"
             </ul>
             <div className="btn-particular">
             <button className="button " onClick={()=>clickHandler(diet.id)} >Delete</button>
-            <Link className="button" style={{textDecoration:"none",textAlign:"center"}} to="/update">
+            <Link className="button" style={{textDecoration:"none",textAlign:"center"}} to={`/update/${diet.id}`}>
                    Update Plan
-                </Link>
+            </Link>
             </div>
             
             </>): ( <><ul>
