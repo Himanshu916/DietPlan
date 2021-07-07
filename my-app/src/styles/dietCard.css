@@ -10,6 +10,10 @@ h2,h4
     margin: 0 auto;
     padding:2rem;
 }
+.diets--created
+{
+    margin-bottom: 30px;;
+}
 .dietCard
 {
     display: flex;
@@ -32,6 +36,7 @@ h2,h4
 .dietCard  h2
 {
     align-self: center;
+    font-size: 1.3rem;
 }
 .dietCard .button
 {
@@ -109,11 +114,13 @@ h2,h4
 {
     display: flex;
     justify-content: center;
+    padding:1rem;
 
 
 }
 .quantity-box button{
-    margin-left: 10px;;
+    margin-left: 10px;
+
 }
 .createDietPlan
 {
@@ -126,13 +133,13 @@ h2,h4
 }
 
 @media screen and (max-width:600px) {
-    h2
+    .dietCard h2
     {
-        font-size: 1.2rem;
+        font-size: 1rem;
 
     }
     h4
     {
-        font-size: 1rem;
+        font-size: .8rem;
     }
 }

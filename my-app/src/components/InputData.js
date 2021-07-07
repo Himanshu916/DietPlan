@@ -8,8 +8,11 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import axios from "axios"
 import {useState} from "react";
-import {Link} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import Notification from './Notification';
+import DietCard from './DietCard';
+import SimilarDiets from './SimilarDiets';
+
  const InputData = ({from,id}) => {
     const initialState = {
         name:"",
@@ -30,16 +33,32 @@ import Notification from './Notification';
     }
     const [details,setDetails]=useState(initialState)
     const [notif,setNotif] = useState({boolean:false,message:""})
+    const [created,setCreated] = useState({boolean:false,id:id,diet:{}})
+    const navigate = useNavigate();
+
+    const getData=async (id)=>
+    {
+        try
+        {
+            return await axios.get("https://keto-diet-kyloapps.herokuapp.com/diet/"+id)
+
+        }catch(error)
+        {
+            console.log(error.response)
+        }
+        
+    }
     useEffect(()=>
     {
-        if(id)
-        {
-            (async()=>
+      
+        if(created.id)
+        {  
+         (async()=>
             {
-        
                 try
                 {
-                    const {data} = await axios.get("https://keto-diet-kyloapps.herokuapp.com/diet/"+id)
+                   const {data} = await getData(created.id)
+                   console.log(data)
                     setDetails(data[0])
                 }catch(error)
                 {
@@ -51,7 +70,7 @@ import Notification from './Notification';
        
         
 
-    },[id])
+    },[created.id])
     const changeHandler =(e)=>
     {
         
@@ -68,19 +87,22 @@ import Notification from './Notification';
                 const {data} = await axios.put("https://keto-diet-kyloapps.herokuapp.com/diet",{...details,id})
                 console.log(data)
                 setNotif({...notif,boolean:true,message:"Successfully Updated"})
-                
+                setTimeout(function(){  navigate(`/diet/${id}`) }, 1000);
+               
             }catch(error)
             {
                 console.log(error.response)
             }
+            
         }
         else{
 
         try{
-            console.log(details,"yha kya h")
             const {data} = await axios.post("https://keto-diet-kyloapps.herokuapp.com/diet",details)
-            console.log(data,"created data")
+            const response = await getData(data.id)
+            console.log(data,"created data",response)
            setNotif({...notif,boolean:true,message:"Successfully Created"})
+           setCreated({...created,boolean:true,id:data.id,diet:response.data[0]})
         }catch(error)
         {
             console.log(error.response)
@@ -89,15 +111,15 @@ import Notification from './Notification';
 
     }
 
-    
     return (
+        <>
         <div className="diet">
             <form onSubmit={(e)=>submitHandler(e,details)} className="diet-details" noValidate autoComplete="off">
                 <TextField name="name" onChange={changeHandler} className="diet-details-input" id="standard-basic" value={details.name} label="Name" />
                 <TextField name="email" onChange={changeHandler}  className="diet-details-input" id="standard-basic" value={details.email} label="Email" type="email" />
                 <TextField name="phone" onChange={changeHandler}  className="diet-details-input" value={details.phone}
                     id="standard-number"
-                    label="Number"
+                    label="Phone Number"
                     type="number"
                     InputLabelProps={{
                         shrink: true,
@@ -109,9 +131,18 @@ import Notification from './Notification';
                     <FormControlLabel value="male" control={<Radio />} label="Male" />
                 </RadioGroup>
                 </FormControl>
-                <TextField name="weight" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Weight" type="number" value={details.weight}/>
-                <TextField name="height" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Height" type="number" value={details.height} />
-                <TextField name="age" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Age" type="number" value={details.age} />
+                <div className="checks">
+                <TextField name="weight" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Weight" type="number" value={details.weight} style={{width:"100%"}}  />
+                <span>Kg</span>
+                </div>
+                <div className="checks">
+                <TextField name="height" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Height" type="number" value={details.height} style={{width:"100%"}}  />
+                <span>Mts</span>
+                </div>
+                <div className="checks">
+                <TextField name="age" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Age" type="number" value={details.age} style={{width:"100%"}}  />
+                <span>Yrs</span>
+                </div>
                 <FormControl className="diet-details-input" component="fieldset" >
                 <FormLabel component="legend">Life Style</FormLabel>
                 <RadioGroup  onChange={changeHandler}  aria-label="lifestyle" value={details.lifestyle} name="lifestyle" >
@@ -136,14 +167,24 @@ import Notification from './Notification';
                 <TextField name="deficitPercentage" onChange={changeHandler}  className="diet-details-input" value={details.deficitPercentage} id="standard-basic" label="Deficit percentage" type="number" />
                 <div className="buttons">
                     <button className="button buttons-creatediet" onSubmit={(e)=>submitHandler(e,details)}> {from ==="update" ? "Update Plan" : "Create Plan"} </button>
-                    <Link className="button" style={{textDecoration:"none",textAlign:"center"}} to="/alldiets">
-                   All Diet Plans
-                    </Link>
-                    
                 </div>
             </form>
             {notif.boolean && <Notification message={notif.message}/>}
         </div>
+       
+        {
+            created.boolean && <>
+            
+                <h1 className="heading"> Diet Created </h1>
+                <div className="diets diets--created">
+                    <DietCard key={created.id} diet={created.diet} />
+                </div>
+                <SimilarDiets quantity={4} diet={created.diet}/>
+            </>
+
+        }
+    
+        </>
     )
 }
 export default InputData

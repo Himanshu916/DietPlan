@@ -22,7 +22,17 @@
     display: flex;
     justify-content:center;
 }
-
+.checks
+{
+    position: relative;
+}
+.checks span
+{
+    position: absolute;
+    top:30px;
+    right:10px;
+    font-weight: 300;
+}
 .button
 {
     width :50%;

@@ -18,13 +18,13 @@ const AllDiet = () => {
             }
         })()
     },[])
-    console.log(allDiets)
+   console.log(allDiets)
     return (
         <>
         <h1 className="heading"> All Diet Plans </h1>
         <div className="diets">
             {
-                allDiets?.map(diet=> <DietCard key={diet.id} diet={diet}/>)
+                allDiets.map(diet=> <DietCard key={diet.id}  diet={diet}/>)
             }
            
         </div>

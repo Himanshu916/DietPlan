@@ -31,9 +31,9 @@ const ParticularDiet = () => {
 
     })()
     },[id])
-console.log(diet)
     return (
-        <div>
+        <>
+        <div className="diets">
             {diet.length ===0 && <><div className="deleted">Item Deleted</div>
                 <Link className="createDietPlan" style={{textDecoration:"none",cursor:"pointer",color:"green"}} to="/">
                     Want To Create More Diet Plan ? 
@@ -50,10 +50,12 @@ console.log(diet)
                
                 
             </div> }
-            {
-                isShow && <SimilarDiets quantity={limits} diet={diet[0]}/>
-            }
+            
         </div>
+        {
+            isShow && <SimilarDiets quantity={limits} diet={diet[0]}/>
+        }
+        </>
     )
 }
 
