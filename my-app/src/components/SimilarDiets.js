@@ -29,7 +29,7 @@ const SimilarDiets = ({diet,quantity}) => {
         <>
         <h1 className="heading"> Similar Diets </h1>
         {
-            similarDiets.length===0 ? "Loading Diet" :  <div className="diets">
+            similarDiets.length===0 ? "Loading Diet" :  <div  className="diets">
             {
                 similarDiets?.map(diet=> <DietCard key={diet.id} diet={diet}/>)
             }

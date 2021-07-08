@@ -45,7 +45,9 @@ const ParticularDiet = () => {
             <p className="wantSimilarDiets">How many similar diets you want to see ?</p>
                 <div className="quantity-box" >
                 <TextField style={{backgroundColor:"white"}} name="limit" onChange={(e)=>setLimits(e.target.value)} className="diet-details-input" id="standard-basic" value={limits} label="Quantity " />
-                <button onClick={()=>setShow(true)} className="button similar">Show</button>
+                <button onClick={()=>{
+                    setShow(true)
+                    }} className="button similar">Show</button>
                 </div>
                
                 

@@ -17,7 +17,7 @@ import {Link} from "react-router-dom"
 
     } 
     return (
-        <div className="dietCard">
+        <div id="dietCard" className="dietCard">
             <h2>{diet.name}</h2>
             {from === "particular" ? (<><ul>
                 <li>
@@ -35,6 +35,10 @@ import {Link} from "react-router-dom"
                     <h4>{diet.age}</h4>
                 </li>
                 <li>
+                    <h2>Weight</h2>
+                    <h4>{diet.weight}</h4>
+                </li>
+                <li>
                     <h2>Height</h2>
                     <h4>{diet.height}</h4>
                 </li>
@@ -43,13 +47,38 @@ import {Link} from "react-router-dom"
                     <h4>{diet.gender}</h4>
                 </li>
                 <li>
-                    <h2>Weight</h2>
-                    <h4>{diet.weight}</h4>
-                </li>
-                <li>
                     <h2>Nutrition Pref</h2>
                     <h4>{diet.nutritionPref}</h4>
                 </li>
+                <li>
+                    <h2>Calorie/Snack</h2>
+                    <h4>{diet.caloriesPerSnack}</h4>
+                </li>
+                <li>
+                    <h2>LifeStyle</h2>
+                    <h4>{diet.lifestyle}</h4>
+                </li>
+                <li>
+                    <h2>No. Of Meals</h2>
+                    <h4>{diet.numberOfMeals}</h4>
+                </li>
+                <li>
+                    <h2>No. Of Snacks</h2>
+                    <h4>{diet.numberOfSnacks}</h4>
+                </li>
+                <li>
+                    <h2>Carbohydreates</h2>
+                    <h4>{diet.carbs}</h4>
+                </li>
+                <li>
+                    <h2>Proteins</h2>
+                    <h4>{diet.proteins}</h4>
+                </li>
+                <li>
+                    <h2>Remaining Deficit</h2>
+                    <h4>{diet.remainingDeficit}</h4>
+                </li>
+               
                 <li>
                     <h2>Total Calories</h2>
                     <h4>{diet.tdee}</h4>
@@ -84,6 +113,7 @@ import {Link} from "react-router-dom"
                 <h4> {diet.email}</h4>
 
             </li>
+           
             <li>
                 <h2>Total Calories</h2>
                 <h4>{diet.tdee}</h4>
@@ -102,7 +132,7 @@ import {Link} from "react-router-dom"
               </li>
             </ul> 
            
-            <Link className="button" style={{textDecoration:"none",textAlign:"center"}} to={`/diet/${diet.id}`}>
+            <Link onClick={()=>{window.location.hash = 'dietCard'}} className="button" style={{textDecoration:"none",textAlign:"center"}} to={`/diet/${diet.id}`}>
                View
             </Link>
             

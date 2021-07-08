@@ -1,6 +1,5 @@
 import React,{useEffect} from 'react'
 import TextField from '@material-ui/core/TextField';
-// import { TextareaAutosize } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -14,6 +13,8 @@ import DietCard from './DietCard';
 import SimilarDiets from './SimilarDiets';
 
  const InputData = ({from,id}) => {
+
+
     const initialState = {
         name:"",
         email:"",
@@ -71,15 +72,22 @@ import SimilarDiets from './SimilarDiets';
         
 
     },[created.id])
+
+  
     const changeHandler =(e)=>
     {
         
         const {name,value} = e.target;
         setDetails({...details,[name]:value})
     }
+
+
     const submitHandler=async(e,details)=>
     {
         e.preventDefault();
+
+     
+
         if(from==="update")
         {
             console.log(from)
@@ -102,11 +110,13 @@ import SimilarDiets from './SimilarDiets';
             const response = await getData(data.id)
             console.log(data,"created data",response)
            setNotif({...notif,boolean:true,message:"Successfully Created"})
-           setCreated({...created,boolean:true,id:data.id,diet:response.data[0]})
+           setCreated({...created,boolean:true,id:data.id,diet:response.data[0]});
+        window.location.hash = 'dietCard';
         }catch(error)
         {
             console.log(error.response)
         }
+
     }
 
     }
@@ -115,8 +125,8 @@ import SimilarDiets from './SimilarDiets';
         <>
         <div className="diet">
             <form onSubmit={(e)=>submitHandler(e,details)} className="diet-details" noValidate autoComplete="off">
-                <TextField name="name" onChange={changeHandler} className="diet-details-input" id="standard-basic" value={details.name} label="Name" />
-                <TextField name="email" onChange={changeHandler}  className="diet-details-input" id="standard-basic" value={details.email} label="Email" type="email" />
+                <TextField  name="name" onChange={changeHandler} className="diet-details-input" id="standard-basic" value={details.name} label="Name"  />
+                <TextField required name="email" onChange={changeHandler}  className="diet-details-input" id="standard-basic" value={details.email} label="Email" type="email" />
                 <TextField name="phone" onChange={changeHandler}  className="diet-details-input" value={details.phone}
                     id="standard-number"
                     label="Phone Number"
@@ -175,7 +185,7 @@ import SimilarDiets from './SimilarDiets';
         {
             created.boolean && <>
             
-                <h1 className="heading"> Diet Created </h1>
+                <h1 id="dietCard" className="heading"> Diet Created </h1>
                 <div className="diets diets--created">
                     <DietCard key={created.id} diet={created.diet} />
                 </div>

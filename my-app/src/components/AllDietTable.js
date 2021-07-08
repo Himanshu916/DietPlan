@@ -40,7 +40,7 @@ const AllDietTable = () => {
                    const {name,phone,email,tdee,totalFats,totalCarbs,totalProteins,id}=item;
                    return {name,phone,email,tdee,totalFats,totalCarbs,totalProteins,id}
                 })
-               
+               console.log(data)
                 setAllDiets(settingData);
             }catch(error)
             {

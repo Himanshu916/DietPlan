@@ -18,7 +18,6 @@ const AllDiet = () => {
             }
         })()
     },[])
-   console.log(allDiets)
     return (
         <>
         <h1 className="heading"> All Diet Plans </h1>
