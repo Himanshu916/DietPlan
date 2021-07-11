@@ -79,6 +79,7 @@ h2,h4
     cursor: pointer;
     text-align: center;
     padding:1rem;
+    
 }
 .quantity
 {
@@ -90,9 +91,10 @@ h2,h4
     -webkit-box-shadow: 10px -5px 11px 0px rgb(250, 184, 158);
     -moz-box-shadow: 10px -5px 11px 0px rgb(250, 184, 158);
     box-shadow: 10px -5px 11px 0px rgb(250, 184, 158);
-    background-color: #f19164;
+    background-color: #ff9d6f;
     padding-bottom: 1rem;;
     margin-top: 1rem;;
+    
 
 }
 .quantity p
@@ -109,18 +111,35 @@ h2,h4
     border-radius: 20px;;
     color:white
 }
-
+.noSimilar
+{
+    font-size: 1.5rem;
+    background-color: rgb(218, 50, 21);
+    color:white;
+    font-weight: 600;
+    padding: 1rem;
+    margin:0 auto;
+    text-align: center;
+}
 .quantity-box
 {
     display: flex;
     justify-content: center;
-    padding:1rem;
+    flex-direction: column;
+    /* align-items: center; */
+    padding:2rem;
 
 
 }
 .quantity-box button{
     margin-left: 10px;
+    margin-top: 10px;
+    align-self: center;
 
+}
+fieldset.MuiFormControl-root.diet-details-input
+{
+    margin: 10px;
 }
 .createDietPlan
 {
@@ -131,7 +150,37 @@ h2,h4
     left:12%;
 
 }
+.import
+{
+    display:flex;
+    padding:1rem;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width:400px;
+    margin: 0 auto;;
+}
+.button-import
+{
+    position: relative;
+    background-color: white;
+    color:orange;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+    left:40%;
+}
+.import button
+{
+    border:none;
+    padding:.5rem .8rem;
+    background-color:gray;
+    color:white;
+    margin-top: 10px;
 
+
+}
 @media screen and (max-width:600px) {
     .dietCard h2
     {

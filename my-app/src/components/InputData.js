@@ -1,4 +1,5 @@
 import React,{useEffect} from 'react'
+import { FormHelperText } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -11,10 +12,10 @@ import {useNavigate} from "react-router-dom"
 import Notification from './Notification';
 import DietCard from './DietCard';
 import SimilarDiets from './SimilarDiets';
+import {Formik,Field,Form,ErrorMessage} from "formik";
+import { validationSchema } from '../utils/validate';
 
  const InputData = ({from,id}) => {
-
-
     const initialState = {
         name:"",
         email:"",
@@ -32,7 +33,7 @@ import SimilarDiets from './SimilarDiets';
         caloriesPerSnack: 0,
         deficitPercentage:0
     }
-    const [details,setDetails]=useState(initialState)
+    const [initialValues,setInitialState]=useState(initialState)
     const [notif,setNotif] = useState({boolean:false,message:""})
     const [created,setCreated] = useState({boolean:false,id:id,diet:{}})
     const navigate = useNavigate();
@@ -60,7 +61,8 @@ import SimilarDiets from './SimilarDiets';
                 {
                    const {data} = await getData(created.id)
                    console.log(data)
-                    setDetails(data[0])
+                    setInitialState(data[0])
+               
                 }catch(error)
                 {
                     console.log(error.response)
@@ -74,28 +76,19 @@ import SimilarDiets from './SimilarDiets';
     },[created.id])
 
   
-    const changeHandler =(e)=>
+
+    const submitHandler=async(values,props)=>
     {
-        
-        const {name,value} = e.target;
-        setDetails({...details,[name]:value})
-    }
-
-
-    const submitHandler=async(e,details)=>
-    {
-        e.preventDefault();
-
-     
-
         if(from==="update")
         {
-            console.log(from)
+            
             try{
-                const {data} = await axios.put("https://keto-diet-kyloapps.herokuapp.com/diet",{...details,id})
-                console.log(data)
+                await axios.put("https://keto-diet-kyloapps.herokuapp.com/diet",{...values,id})
+               
                 setNotif({...notif,boolean:true,message:"Successfully Updated"})
                 setTimeout(function(){  navigate(`/diet/${id}`) }, 1000);
+                props.resetForm();
+                props.setSubmitting(false)
                
             }catch(error)
             {
@@ -106,11 +99,13 @@ import SimilarDiets from './SimilarDiets';
         else{
 
         try{
-            const {data} = await axios.post("https://keto-diet-kyloapps.herokuapp.com/diet",details)
+            const {data} = await axios.post("https://keto-diet-kyloapps.herokuapp.com/diet",values)
             const response = await getData(data.id)
             console.log(data,"created data",response)
            setNotif({...notif,boolean:true,message:"Successfully Created"})
            setCreated({...created,boolean:true,id:data.id,diet:response.data[0]});
+           props.resetForm();
+           props.setSubmitting(false)
         window.location.hash = 'dietCard';
         }catch(error)
         {
@@ -120,65 +115,79 @@ import SimilarDiets from './SimilarDiets';
     }
 
     }
-
+console.log(initialValues)
     return (
         <>
         <div className="diet">
-            <form onSubmit={(e)=>submitHandler(e,details)} className="diet-details" noValidate autoComplete="off">
-                <TextField  name="name" onChange={changeHandler} className="diet-details-input" id="standard-basic" value={details.name} label="Name"  />
-                <TextField required name="email" onChange={changeHandler}  className="diet-details-input" id="standard-basic" value={details.email} label="Email" type="email" />
-                <TextField name="phone" onChange={changeHandler}  className="diet-details-input" value={details.phone}
+            <Formik onSubmit={submitHandler} enableReinitialize initialValues={initialValues} validationSchema={validationSchema} >
+                {(props)=>{
+                   
+                    return (
+                    <Form className="diet-details">
+                    
+                <Field as={TextField}   name="name"  className="diet-details-input" id="standard-basic" label="Name" helperText={<ErrorMessage name="name"/>}  />
+                <Field as={TextField}  name="email"  className="diet-details-input" id="standard-basic"  label="Email" type="email" helperText={<ErrorMessage name="email"/>} />
+                <Field as={TextField} name="phone"   className="diet-details-input" 
                     id="standard-number"
                     label="Phone Number"
                     type="number"
                     InputLabelProps={{
                         shrink: true,
-                    }}/>
+                    }}
+                    helperText={<ErrorMessage name="phone"/>}
+                    />
                     <FormControl className="diet-details-input" component="fieldset" >
                 <FormLabel component="legend">Gender</FormLabel>
-                <RadioGroup  onChange={changeHandler}  aria-label="gender" value={details.gender} name="gender" >
+                <Field as ={RadioGroup}    aria-label="gender"  name="gender" >
                     <FormControlLabel value="female" control={<Radio />} label="Female" />
                     <FormControlLabel value="male" control={<Radio />} label="Male" />
-                </RadioGroup>
+                </Field>
+                <FormHelperText><ErrorMessage name="gender"/></FormHelperText>
                 </FormControl>
+                
                 <div className="checks">
-                <TextField name="weight" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Weight" type="number" value={details.weight} style={{width:"100%"}}  />
+                <Field as={TextField} name="weight"   className="diet-details-input" id="standard-basic" label="Weight" type="number"  style={{width:"100%"}} helperText={<ErrorMessage name="weight"/>}   />
                 <span>Kg</span>
                 </div>
                 <div className="checks">
-                <TextField name="height" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Height" type="number" value={details.height} style={{width:"100%"}}  />
+                <Field as={TextField} name="height"  className="diet-details-input" id="standard-basic" label="Height" type="number" style={{width:"100%"}} helperText={<ErrorMessage name="height"/>}   />
                 <span>Mts</span>
                 </div>
                 <div className="checks">
-                <TextField name="age" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Age" type="number" value={details.age} style={{width:"100%"}}  />
+                <Field as={TextField} name="age"  className="diet-details-input" id="standard-basic" label="Age" type="number"  style={{width:"100%"}} helperText={<ErrorMessage name="age"/>}   />
                 <span>Yrs</span>
                 </div>
                 <FormControl className="diet-details-input" component="fieldset" >
                 <FormLabel component="legend">Life Style</FormLabel>
-                <RadioGroup  onChange={changeHandler}  aria-label="lifestyle" value={details.lifestyle} name="lifestyle" >
+                <Field  as={RadioGroup}  aria-label="lifestyle"  name="lifestyle" >
                     <FormControlLabel value="seden" control={<Radio />} label="Sedentary" />
                     <FormControlLabel value="lowActive" control={<Radio />} label="Active" />
                     <FormControlLabel value="Active" control={<Radio />} label=" Low Active" />
                     <FormControlLabel value="veryActive" control={<Radio />} label="Very Active" />
-                </RadioGroup>
+                </Field>
+                <FormHelperText><ErrorMessage name="lifestyle"/></FormHelperText>
                 </FormControl>
                 <FormControl className="diet-details-input" component="fieldset">
                 <FormLabel component="legend">Nutrition</FormLabel>
-                <RadioGroup  onChange={changeHandler}  aria-label="nutrition" value={details.nutritionPref} name="nutritionPref" >
-                    <FormControlLabel value="veg" control={<Radio />} label="vegetarian" />
-                    <FormControlLabel value="non-veg" control={<Radio />} label="Non-Vegetarian" />
-                </RadioGroup>
+                <Field  as={RadioGroup}  aria-label="nutrition"  name="nutritionPref" >
+                    <FormControlLabel value="veg" control={<Radio />} label="Vegetarian" />
+                    <FormControlLabel value="nonveg" control={<Radio />} label="Non-Vegetarian" />
+                    <FormControlLabel value="vegwithegg" control={<Radio />} label="Vegetarian & Egg" />
+                </Field>
+                <FormHelperText><ErrorMessage name="nutritionPref"/></FormHelperText>
                 </FormControl>
-                <TextField name="carbs" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="Carbohydrates" value={details.carbs} type="number" />
-                <TextField name="proteins" onChange={changeHandler}  className="diet-details-input" value={details.proteins} id="standard-basic" label="Protein" type="number" />
-                <TextField name="numberOfMeals" onChange={changeHandler}  className="diet-details-input" value={details.numberOfMeals} id="standard-basic" label="No. of Meals" type="number" />
-                <TextField name="numberOfSnacks" onChange={changeHandler}  className="diet-details-input" id="standard-basic" label="No. of Snacks" value={details.numberOfSnacks} type="number" />
-                <TextField name="caloriesPerSnack" onChange={changeHandler}  className="diet-details-input" value={details.caloriesPerSnack} id="standard-basic" label="Calorie/snack" type="number" />
-                <TextField name="deficitPercentage" onChange={changeHandler}  className="diet-details-input" value={details.deficitPercentage} id="standard-basic" label="Deficit percentage" type="number" />
+                <Field as={TextField} name="carbs"  className="diet-details-input" id="standard-basic" label="Carbohydrates"  type="number" helperText={<ErrorMessage name="carbs"/>}  />
+                <Field as={TextField} name="proteins"  className="diet-details-input"  id="standard-basic" label="Protein" type="number" helperText={<ErrorMessage name="proteins"/>}  />
+                <Field as={TextField} name="numberOfMeals"  className="diet-details-input"  id="standard-basic" label="No. of Meals" type="number" helperText={<ErrorMessage name="numberOfMeals"/>}  />
+                <Field as={TextField} name="numberOfSnacks"  className="diet-details-input" id="standard-basic" label="No. of Snacks"  type="number" helperText={<ErrorMessage name="numberOfSnacks"/>}  />
+                <Field as={TextField} name="caloriesPerSnack"   className="diet-details-input"  id="standard-basic" label="Calorie/snack" type="number" helperText={<ErrorMessage name="caloriesPerSnack"/>}  />
+                <Field as={TextField} name="deficitPercentage"   className="diet-details-input"  id="standard-basic" label="Deficit percentage" type="number" helperText={<ErrorMessage name="deficitPercentage"/>}  />
                 <div className="buttons">
-                    <button className="button buttons-creatediet" onSubmit={(e)=>submitHandler(e,details)}> {from ==="update" ? "Update Plan" : "Create Plan"} </button>
+                    <button type="submit" disabled={props.isSubmitting} className="button buttons-creatediet" onSubmit={submitHandler}> {from ==="update" ? props.isSubmitting ?"Loading": "Update Plan" :props.isSubmitting ?"Loading":"Create Plan"} </button>
                 </div>
-            </form>
+                    </Form>
+                )}}
+            </Formik>
             {notif.boolean && <Notification message={notif.message}/>}
         </div>
        
@@ -189,7 +198,7 @@ import SimilarDiets from './SimilarDiets';
                 <div className="diets diets--created">
                     <DietCard key={created.id} diet={created.diet} />
                 </div>
-                <SimilarDiets quantity={4} diet={created.diet}/>
+                <SimilarDiets from="create" quantity={4} diet={created.diet}/>
             </>
 
         }
@@ -198,3 +207,4 @@ import SimilarDiets from './SimilarDiets';
     )
 }
 export default InputData
+

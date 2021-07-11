@@ -2,14 +2,16 @@ import React,{useState,useEffect} from 'react'
 import axios from "axios"
 import {useParams,Link} from "react-router-dom"
 import DietCard from './DietCard'
-import TextField from '@material-ui/core/TextField';
 import SimilarDiets from './SimilarDiets';
-
+import { WantSimilar } from './WantSimilar';
 const ParticularDiet = () => {
     const {id} = useParams()
     const [diet,setDiet]=useState([])
     const [isWant,setWant] = useState(false)
     const [limits,setLimits] = useState(0)
+    const [nutritionPref,setNutritionPref] = useState("");
+    const [value, setValue] = useState([1, 7]);
+    
     const [isShow,setShow] = useState(false)
     useEffect(()=>
     {
@@ -31,6 +33,7 @@ const ParticularDiet = () => {
 
     })()
     },[id])
+
     return (
         <>
         <div className="diets">
@@ -40,25 +43,27 @@ const ParticularDiet = () => {
                 </Link>
             </>}
             {diet.length!==0 && <DietCard key={diet?.id} from="particular" setDiet={setDiet} diet={diet[0]}/>}
-            <p onClick={()=>setWant(true)} className="wantSimilarDiets"> Want to see more similar diets ?</p>
+            <p onClick={()=>{setWant(true)
+            setShow(false)}} className="wantSimilarDiets"> Want to see more similar diets ?</p>
             {isWant && <div className="quantity">
             <p className="wantSimilarDiets">How many similar diets you want to see ?</p>
                 <div className="quantity-box" >
-                <TextField style={{backgroundColor:"white"}} name="limit" onChange={(e)=>setLimits(e.target.value)} className="diet-details-input" id="standard-basic" value={limits} label="Quantity " />
+               <WantSimilar value={value} setValue={setValue} limits={limits} nutritionPref={nutritionPref} setNutritionPref={setNutritionPref} setLimits={setLimits}  />
                 <button onClick={()=>{
                     setShow(true)
+                    // setValue([1, 7])
+                    setWant(false)
                     }} className="button similar">Show</button>
                 </div>
                
-                
             </div> }
             
         </div>
         {
-            isShow && <SimilarDiets quantity={limits} diet={diet[0]}/>
+            isShow && <SimilarDiets value={value} quantity={limits}  diet={diet[0]}  nutritionPref={nutritionPref}  />
         }
         </>
     )
-}
+} 
 
 export default ParticularDiet

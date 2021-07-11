@@ -6,7 +6,8 @@
     bottom:5px;
     left:20px;
     min-width: 300px;
-    opacity: .7
+    opacity: .7;
+    z-index: 1000;
 }
 
 .notification-message
