@@ -164,6 +164,7 @@ console.log(initialValues)
                     <FormControlLabel value="lowActive" control={<Radio />} label="Active" />
                     <FormControlLabel value="Active" control={<Radio />} label=" Low Active" />
                     <FormControlLabel value="veryActive" control={<Radio />} label="Very Active" />
+                    <FormControlLabel value="extremelyActive" control={<Radio />} label="Extremely Active" />
                 </Field>
                 <FormHelperText><ErrorMessage name="lifestyle"/></FormHelperText>
                 </FormControl>
