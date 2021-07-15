@@ -7,6 +7,8 @@ import AllDiet from './components/AllDiet';
 import UpdatePlan from './components/UpdatePlan';
 import Navigation from './components/Navigation';
 import AllDietTable  from './components/AllDietTable';
+import Calculate from "./components/Calculate"
+import SimilarDietPage from './components/SimilarDietPage';
 function App() {
   return (
     <div className="App">
@@ -19,6 +21,8 @@ function App() {
         <Route path="/diet/:id" element={<ParticularDiet/>} />
         <Route path="/update/:id" element={<UpdatePlan/>} />
         <Route path="/alldietstable" element={<AllDietTable/>} />
+        <Route path="/calculate" element={<Calculate/>} />
+        <Route path="/similarDietPage" element={<SimilarDietPage/>} />
       </Routes>
       
     </div>

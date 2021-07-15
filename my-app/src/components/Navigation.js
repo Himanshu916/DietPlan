@@ -10,10 +10,16 @@ const Navigation = () => {
           </div>
             <ul >
                 <li>
-                    <Link to="/">Home</Link>
+                    <Link to="/">Home |</Link> 
                 </li>
                 <li>
-                    <Link to="/alldietstable">All Diets</Link>
+                    <Link to="/alldietstable">All Diets |</Link> 
+                </li>
+                <li>
+                    <Link to="/calculate">Diet Calculator |</Link> 
+                </li>
+                <li>
+                    <Link to="/similarDietPage">Similar Diets |</Link> 
                 </li>
             </ul>
       </nav>

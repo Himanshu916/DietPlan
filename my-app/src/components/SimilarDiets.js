@@ -4,26 +4,26 @@ import DietCard from './DietCard'
 
 
 
-const SimilarDiets = ({diet,quantity,from,value,nutritionPref}) => {
+const SimilarDiets = ({diet,quantity,from,value,nutritionPref,margin}) => {
     let diety;
     const [similarDiets,setSimilarDiets] = useState([])
    
     
     if(from)
     {
-        diety={nutritionPref:diet.nutritionPref, limit:Number(quantity), tdee:diet.tdee, margin:10, numberOfMeals:[1,7]}
+        diety={nutritionPref:diet.nutritionPref, limit:Number(quantity), tdee:Number(diet.tdee), margin:margin, numberOfMeals:[1,7]}
     }
     else
     {
-        diety={nutritionPref:nutritionPref, limit:quantity?Number(quantity):0, tdee:diet.tdee, margin:10, numberOfMeals:value}
+        diety={nutritionPref:nutritionPref, limit:quantity?Number(quantity):0, tdee:Number(diet.tdee), margin:10, numberOfMeals:value}
     }
-    console.log(diety)
+   
     useEffect(()=>
     {
         
         (async()=>
         {
-            console.log("fetching")
+            
             if(diety)
             {
             try
@@ -42,7 +42,12 @@ const SimilarDiets = ({diet,quantity,from,value,nutritionPref}) => {
 
         })()
     },[])
-    console.log(diet)
+   
+  similarDiets.sort((a,b)=>
+    {
+       return Date.parse(a.timestamp) - Date.parse(b.timestamp)
+    });
+   
     return (
         <>
         <h1 className="heading"> Similar Diets </h1>

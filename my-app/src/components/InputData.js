@@ -19,19 +19,21 @@ import { validationSchema } from '../utils/validate';
     const initialState = {
         name:"",
         email:"",
-        phone:0,
+        phone:"",
         gender:"",
         weight:"",
         height:"",
         age:"",
         lifestyle: "",
         nutritionPref: "",
-        carbs: 0,
-        proteins: 0,
-        numberOfMeals: 0,
-        numberOfSnacks: 0,
-        caloriesPerSnack: 0,
-        deficitPercentage:0
+        medicalBackground:"",
+        bodyFat:"",
+        carbs: "",
+        proteins: "",
+        numberOfMeals: "",
+        numberOfSnacks: "",
+        caloriesPerSnack: "",
+        deficitPercentage:""
     }
     const [initialValues,setInitialState]=useState(initialState)
     const [notif,setNotif] = useState({boolean:false,message:""})
@@ -60,7 +62,7 @@ import { validationSchema } from '../utils/validate';
                 try
                 {
                    const {data} = await getData(created.id)
-                   console.log(data)
+                   
                     setInitialState(data[0])
                
                 }catch(error)
@@ -79,6 +81,7 @@ import { validationSchema } from '../utils/validate';
 
     const submitHandler=async(values,props)=>
     {
+        
         if(from==="update")
         {
             
@@ -101,7 +104,7 @@ import { validationSchema } from '../utils/validate';
         try{
             const {data} = await axios.post("https://keto-diet-kyloapps.herokuapp.com/diet",values)
             const response = await getData(data.id)
-            console.log(data,"created data",response)
+           
            setNotif({...notif,boolean:true,message:"Successfully Created"})
            setCreated({...created,boolean:true,id:data.id,diet:response.data[0]});
            props.resetForm();
@@ -115,7 +118,7 @@ import { validationSchema } from '../utils/validate';
     }
 
     }
-console.log(initialValues)
+
     return (
         <>
         <div className="diet">
@@ -177,8 +180,10 @@ console.log(initialValues)
                 </Field>
                 <FormHelperText><ErrorMessage name="nutritionPref"/></FormHelperText>
                 </FormControl>
-                <Field as={TextField} name="carbs"  className="diet-details-input" id="standard-basic" label="Carbohydrates"  type="number" helperText={<ErrorMessage name="carbs"/>}  />
-                <Field as={TextField} name="proteins"  className="diet-details-input"  id="standard-basic" label="Protein" type="number" helperText={<ErrorMessage name="proteins"/>}  />
+                <Field as={TextField} placeholder="Please enter g of carbohydrates you'd like to consume." name="carbs"  className="diet-details-input" id="standard-basic" label="Carbohydrates"  type="number" helperText={<ErrorMessage name="carbs"/>}  />
+                <Field as={TextField} placeholder="Please enter multiplying factor for protein." name="proteins"  className="diet-details-input"  id="standard-basic" label="Protein" type="number" helperText={<ErrorMessage name="proteins"/>}  />
+                <Field as={TextField}  name="medicalBackground"  className="diet-details-input" id="standard-basic"  label="Medical Background"  />
+                <Field as={TextField} name="bodyFat"  className="diet-details-input" id="standard-basic" label="Body Fat"  type="number"  />
                 <Field as={TextField} name="numberOfMeals"  className="diet-details-input"  id="standard-basic" label="No. of Meals" type="number" helperText={<ErrorMessage name="numberOfMeals"/>}  />
                 <Field as={TextField} name="numberOfSnacks"  className="diet-details-input" id="standard-basic" label="No. of Snacks"  type="number" helperText={<ErrorMessage name="numberOfSnacks"/>}  />
                 <Field as={TextField} name="caloriesPerSnack"   className="diet-details-input"  id="standard-basic" label="Calorie/snack" type="number" helperText={<ErrorMessage name="caloriesPerSnack"/>}  />
@@ -199,7 +204,7 @@ console.log(initialValues)
                 <div className="diets diets--created">
                     <DietCard key={created.id} diet={created.diet} />
                 </div>
-                <SimilarDiets from="create" quantity={4} diet={created.diet}/>
+                <SimilarDiets from="create" quantity={4} diet={created.diet} margin="10"/>
             </>
 
         }

@@ -50,7 +50,11 @@ h2,h4
     justify-content: space-between;
     list-style-type: none;
 }
-
+.dietCard ul li h4
+{
+    color:gray;
+    text-transform:capitalize;
+}
 .btn-particular
 {
     display: flex;
@@ -178,6 +182,9 @@ fieldset.MuiFormControl-root.diet-details-input
     background-color:gray;
     color:white;
     margin-top: 10px;
+    position:relative;
+    left:-40px;
+    
 
 
 }
@@ -190,5 +197,10 @@ fieldset.MuiFormControl-root.diet-details-input
     h4
     {
         font-size: .8rem;
+    }
+    .import button
+    {
+          position:relative;
+         
     }
 }

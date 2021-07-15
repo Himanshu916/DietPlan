@@ -11,6 +11,8 @@ const ParticularDiet = () => {
     const [limits,setLimits] = useState(0)
     const [nutritionPref,setNutritionPref] = useState("");
     const [value, setValue] = useState([1, 7]);
+    const [deleted,setDeleted] = useState(false)
+    const [margin,setMargin] = useState(10)
     
     const [isShow,setShow] = useState(false)
     useEffect(()=>
@@ -21,6 +23,7 @@ const ParticularDiet = () => {
         try
         {
             const response = await axios.get("https://keto-diet-kyloapps.herokuapp.com/diet/"+id)
+            console.log(response.data)
             if(response.status===200)
             setDiet(response.data)
             
@@ -33,22 +36,30 @@ const ParticularDiet = () => {
 
     })()
     },[id])
+const showHandler=()=>
+{
+   console.log(diet[0])
+    setWant(true)
+    setShow(false)
+    setLimits(3)
+    setNutritionPref(diet[0].nutritionPref)
 
+
+}
     return (
         <>
         <div className="diets">
-            {diet.length ===0 && <><div className="deleted">Item Deleted</div>
+            {deleted && <><div className="deleted">Item Deleted</div>
                 <Link className="createDietPlan" style={{textDecoration:"none",cursor:"pointer",color:"green"}} to="/">
                     Want To Create More Diet Plan ? 
                 </Link>
             </>}
-            {diet.length!==0 && <DietCard key={diet?.id} from="particular" setDiet={setDiet} diet={diet[0]}/>}
-            <p onClick={()=>{setWant(true)
-            setShow(false)}} className="wantSimilarDiets"> Want to see more similar diets ?</p>
+            {diet.length!==0 && <DietCard key={diet?.id} from="particular" setDeleted={setDeleted} setDiet={setDiet} diet={diet[0]}/>}
+           {!deleted && <p onClick={showHandler} className="wantSimilarDiets"> Want to see more similar diets ?</p>}
             {isWant && <div className="quantity">
-            <p className="wantSimilarDiets">How many similar diets you want to see ?</p>
+         <p className="wantSimilarDiets">How many similar diets you want to see ?</p>
                 <div className="quantity-box" >
-               <WantSimilar value={value} setValue={setValue} limits={limits} nutritionPref={nutritionPref} setNutritionPref={setNutritionPref} setLimits={setLimits}  />
+               <WantSimilar value={value} setValue={setValue} margin={margin} setMargin={setMargin} limits={limits} nutritionPref={nutritionPref} setNutritionPref={setNutritionPref} setLimits={setLimits}  />
                 <button onClick={()=>{
                     setShow(true)
                     // setValue([1, 7])
@@ -60,7 +71,7 @@ const ParticularDiet = () => {
             
         </div>
         {
-            isShow && <SimilarDiets value={value} quantity={limits}  diet={diet[0]}  nutritionPref={nutritionPref}  />
+            isShow && !deleted  && <SimilarDiets value={value} quantity={limits} margin={margin}  diet={diet[0]}  nutritionPref={nutritionPref}  />
         }
         </>
     )

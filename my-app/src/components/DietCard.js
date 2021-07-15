@@ -1,13 +1,26 @@
 import axios from 'axios'
 import React from 'react'
 import {Link} from "react-router-dom"
- const DietCard = ({diet,from,setDiet}) => {
+ const DietCard = ({diet,from,setDiet,setDeleted}) => {
  
+
+    const getLifeStyle=(lifeStyle)=>
+    {
+        switch(lifeStyle)
+        {
+            case "seden":
+                return "Sedentary"
+            default :
+            return lifeStyle
+
+        }
+    }
     async function clickHandler(id)
     {
         try
         {
             await axios.delete("https://keto-diet-kyloapps.herokuapp.com/diet/"+id)
+            setDeleted(true)
             setDiet([])
           
         }catch(error)
@@ -16,6 +29,7 @@ import {Link} from "react-router-dom"
         }
 
     } 
+  
     return (
         <div id="dietCard" className="dietCard">
             <h2>{diet.name}</h2>
@@ -39,7 +53,7 @@ import {Link} from "react-router-dom"
                     <h4>{diet.weight}</h4>
                 </li>
                 <li>
-                    <h2>Height</h2>
+                    <h2>Height (mts)</h2>
                     <h4>{diet.height}</h4>
                 </li>
                 <li>
@@ -52,11 +66,11 @@ import {Link} from "react-router-dom"
                 </li>
                 <li>
                     <h2>Calorie/Snack</h2>
-                    <h4>{diet.caloriesPerSnack}</h4>
+                    <h4>{diet.caloriesPerSnack} calories</h4>
                 </li>
                 <li>
                     <h2>LifeStyle</h2>
-                    <h4>{diet.lifestyle}</h4>
+                    <h4>{getLifeStyle(diet.lifestyle)}</h4>
                 </li>
                 <li>
                     <h2>No. Of Meals</h2>
@@ -66,34 +80,30 @@ import {Link} from "react-router-dom"
                     <h2>No. Of Snacks</h2>
                     <h4>{diet.numberOfSnacks}</h4>
                 </li>
+                {/* <li>
+                    <h2>Carbohydrates (grams)</h2>
+                    <h4>{diet.carbs} grams</h4>
+                </li> */}
                 <li>
-                    <h2>Carbohydreates</h2>
-                    <h4>{diet.carbs}</h4>
+                    <h2>Total Calorie (calories)</h2>
+                    <h4>{diet.tdee} calories</h4>
                 </li>
                 <li>
-                    <h2>Proteins</h2>
-                    <h4>{diet.proteins}</h4>
-                </li>
-                <li>
-                    <h2>Remaining Deficit</h2>
-                    <h4>{diet.remainingDeficit}</h4>
+                    <h2>Diet Calories</h2>
+                    <h4>{diet.remainingDeficit} calories</h4>
                 </li>
                
                 <li>
-                    <h2>Total Calories</h2>
-                    <h4>{diet.tdee}</h4>
+                    <h2>Carbohydate per day</h2>
+                    <h4>{(diet.totalCarbs)/4}grams</h4>
                 </li>
                 <li>
-                    <h2>Total Fats</h2>
-                    <h4>{diet.totalFats}</h4>
+                    <h2>Protein per day</h2>
+                    <h4>{(diet.totalProteins)/4} grams</h4>
                 </li>
                 <li>
-                    <h2>Total Carbohydates</h2>
-                    <h4>{diet.totalCarbs}</h4>
-                </li>
-                <li>
-                    <h2>Total Proteins</h2>
-                    <h4>{diet.totalProteins}</h4>
+                    <h2> Fat per day </h2>
+                    <h4>{diet.totalFats} grams</h4>
                 </li>
             </ul>
             <div className="btn-particular">
@@ -115,20 +125,20 @@ import {Link} from "react-router-dom"
             </li>
            
             <li>
-                <h2>Total Calories</h2>
-                <h4>{diet.tdee}</h4>
+                <h2>Total Calories (calories)</h2>
+                <h4>{diet.tdee} calories</h4>
             </li>
               <li>
-                  <h2>Total Fats</h2>
-                  <h4>{diet.totalFats}</h4>
+                  <h2>Total Fats (grams)</h2>
+                  <h4>{diet.totalFats} grams</h4>
               </li>
               <li>
-                  <h2>Total Carbohydates</h2>
-                  <h4>{diet.totalCarbs}</h4>
+                  <h2>Total Carbohydates (calories)</h2>
+                  <h4>{diet.totalCarbs} calories</h4>
               </li>
               <li>
-                  <h2>Total Proteins</h2>
-                  <h4>{diet.totalProteins}</h4>
+                  <h2>Total Proteins (grams)</h2>
+                  <h4>{(diet.totalProteins)/4} grams</h4>
               </li>
             </ul> 
            

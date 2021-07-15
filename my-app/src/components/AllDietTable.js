@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import MaterialTable from "material-table"
 import axios from "axios"
 import Notification from './Notification'
-import XLSX from "xlsx"
+
 
 const AllDietTable = () => {
     const navigate = useNavigate()
@@ -61,7 +61,7 @@ const AllDietTable = () => {
     {
         console.log(e.target.files[0])
         // const file = e.target.files[0]
-        console.log(e.target.files[0]);
+   
         setFile(e.target.files[0]);
       
     }
@@ -73,10 +73,10 @@ const AllDietTable = () => {
         let formData = new FormData();
         formData.append("file",file)
        
-      console.log(formData.getAll("file"))
+     
         try{
             
-            const response=axios.post('https://keto-diet-kyloapps.herokuapp.com/upload', formData, {
+            axios.post('https://keto-diet-kyloapps.herokuapp.com/upload', formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
@@ -100,7 +100,7 @@ const AllDietTable = () => {
             try
             {
                 const {data} = await axios.get("https://keto-diet-kyloapps.herokuapp.com/alldiets");
-               console.log(data)
+              
                 setAllDiets(data);
             }catch(error)
             {
@@ -108,7 +108,7 @@ const AllDietTable = () => {
             }
         })()
     },[])
-    console.log(allDiets)
+    
     const settingData = allDiets.map(item=> {
         const {name,phone,email,tdee,totalFats,totalCarbs,totalProteins,id}=item;
         return {name,phone,email,tdee,totalFats,totalCarbs,totalProteins,id}
@@ -127,7 +127,7 @@ const AllDietTable = () => {
                tooltip:"view diet",
                onClick:(event,rowData)=>
                {
-                //    console.log(rowData)
+                
                 navigate(`/diet/${rowData.id}`)
                     
                }
@@ -140,16 +140,3 @@ export default AllDietTable
 
 
 
-// console.log(event)
-// const bstr = event.target.result;
-// const workBook = XLSX.read(bstr,{type:"binary"});
-
-// const workSheetName = workBook.SheetNames[0];
-// const workSheet = workBook.Sheets[workSheetName];
-
-// const fileData = XLSX.utils.sheet_to_json(workSheet,{header:1})
-// console.log(fileData)
-// const header = fileData[0];
-// fileData.splice(0,1)
-// console.log(header,fileData)
-// convertToJSON(header,fileData)

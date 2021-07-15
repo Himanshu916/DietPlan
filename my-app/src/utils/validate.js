@@ -8,7 +8,7 @@ export const validationSchema = Yup.object().shape({
     weight:Yup.number().typeError("Please Enter Valid Weight").required("Required"),
     height:Yup.number().typeError("Please Enter Valid Height").required("Required"),
     age:Yup.number().typeError("Please Enter Valid Age").required("Required"),
-    lifestyle:Yup.string().oneOf(["seden","lowActive"],"Active","veryActive").required("Required"),
+    lifestyle:Yup.string().oneOf(["seden","lowActive","Active","veryActive","extremelyActive"]).required("Required"),
     nutritionPref:Yup.string().oneOf(["veg","nonveg","vegwithegg"],"Required").required("Required"),
     carbs: Yup.number().typeError("Please Enter Valid Carbs").required("Required"),
     proteins: Yup.number().typeError("Please Enter Valid Proteins").required("Required"),

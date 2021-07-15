@@ -38,3 +38,18 @@
     font-size: 1.2rem;
     color:navy;
 }
+@media screen and (max-width:600px) {
+    .logo{
+        display:none;
+    }
+
+    .navigation
+    {
+        padding:0;
+    }
+    .navigation ul
+    {
+        padding:0
+    }
+  
+}
