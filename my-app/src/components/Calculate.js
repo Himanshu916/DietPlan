@@ -135,7 +135,7 @@ import {Formik,Field,Form,ErrorMessage} from "formik";
               </li>
               <li>
                   <h2>Carbohydrate per day</h2>
-                  <h4>{(created.diet.totalCarbs/4)} grams</h4>
+                  <h4>{(created.diet.totalCarbs/4)} Grams</h4>
               </li>
               <li>
                   <h2>Fat per day</h2>

@@ -85,7 +85,7 @@ import {Link} from "react-router-dom"
                     <h4>{diet.carbs} grams</h4>
                 </li> */}
                 <li>
-                    <h2>Total Calorie (calories)</h2>
+                    <h2>Total Calorie</h2>
                     <h4>{diet.tdee} calories</h4>
                 </li>
                 <li>
@@ -95,7 +95,7 @@ import {Link} from "react-router-dom"
                
                 <li>
                     <h2>Carbohydate per day</h2>
-                    <h4>{(diet.totalCarbs)/4}grams</h4>
+                    <h4>{(diet.totalCarbs)/4} grams</h4>
                 </li>
                 <li>
                     <h2>Protein per day</h2>
@@ -125,19 +125,19 @@ import {Link} from "react-router-dom"
             </li>
            
             <li>
-                <h2>Total Calories (calories)</h2>
+                <h2>Total Calories</h2>
                 <h4>{diet.tdee} calories</h4>
             </li>
               <li>
-                  <h2>Total Fats (grams)</h2>
+                  <h2>Total Fats</h2>
                   <h4>{diet.totalFats} grams</h4>
               </li>
               <li>
-                  <h2>Total Carbohydates (calories)</h2>
+                  <h2>Total Carbohydates</h2>
                   <h4>{diet.totalCarbs} calories</h4>
               </li>
               <li>
-                  <h2>Total Proteins (grams)</h2>
+                  <h2>Total Proteins</h2>
                   <h4>{(diet.totalProteins)/4} grams</h4>
               </li>
             </ul> 
