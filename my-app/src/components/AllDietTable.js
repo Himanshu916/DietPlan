@@ -11,6 +11,7 @@ const AllDietTable = () => {
     const [file,setFile]=useState(null)
     const [importButton,setImport] = useState(false)
     const [imported,setImported] = useState(false)
+    
     const columns = [
         {
             title:"Name",field:"name"
@@ -131,7 +132,9 @@ const AllDietTable = () => {
                 navigate(`/diet/${rowData.id}`)
                     
                }
-           }]} style={{maxWidth:"800px",margin:"0 auto"}} title="Diet Table" data={settingData} columns={columns} />
+           }]} style={{maxWidth:"800px",margin:"0 auto"}} title="Diet Table" data={settingData} columns={columns} 
+     
+/>
         </div>
     )
 }
