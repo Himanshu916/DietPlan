@@ -1,40 +1,58 @@
 import React,{useState,useEffect} from 'react'
 import { useNavigate } from 'react-router'
-import MaterialTable from "material-table"
+import TableBody from '@material-ui/core/TableBody';
 import axios from "axios"
 import Notification from './Notification'
+import useTable from './NewTable'
+import { Paper,makeStyles } from '@material-ui/core';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import Icon from '@material-ui/core/Icon';
 
+const useStyles = makeStyles((theme)=>({
+    pageContent:{
+        margin:theme.spacing(5),
+        padding:theme.spacing(3)
+    }
+}))
 
+const headCells = [
+    {
+        label:"View",id:"info"
+    },
+        {
+            label:"Name",id:"name"
+        },
+        {
+            label:"Phone",id:"phone"
+        },
+        {
+            label:"Email",id:"email"
+        },
+        {
+            label:"T.Calories",id:"tdee"
+        },
+        {
+            label:"T.Fats",id:"totalFats"
+        },
+        {
+            label:"T.Carbs",id:"totalCarbs"
+        },
+        {
+            label:"T.Proteins",id:"totalProteins"
+        }
+
+    
+]
 const AllDietTable = () => {
+    const classes = useStyles();
     const navigate = useNavigate()
     const [allDiets,setAllDiets] = useState([]);
     const [file,setFile]=useState(null)
     const [importButton,setImport] = useState(false)
     const [imported,setImported] = useState(false)
-    
-    const columns = [
-        {
-            title:"Name",field:"name"
-        },
-        {
-            title:"Phone",field:"phone"
-        },
-        {
-            title:"Email",field:"email"
-        },
-        {
-            title:"T.Calories",field:"tdee"
-        },
-        {
-            title:"T.Fats",field:"totalFats"
-        },
-        {
-            title:"T.Carbs",field:"totalCarbs"
-        },
-        {
-            title:"T.Proteins",field:"totalProteins"
-        }
-    ]
+    const {TblContainer,TblHead,TblPagination,recordsAfterPagingAndSorting} = useTable(allDiets,headCells);
+   
 
     // const convertToJSON=(header,fileData)=>
     // {
@@ -61,7 +79,7 @@ const AllDietTable = () => {
     const importExcel=(e)=>
     {
         console.log(e.target.files[0])
-        // const file = e.target.files[0]
+        
    
         setFile(e.target.files[0]);
       
@@ -110,10 +128,7 @@ const AllDietTable = () => {
         })()
     },[])
     
-    const settingData = allDiets.map(item=> {
-        const {name,phone,email,tdee,totalFats,totalCarbs,totalProteins,id}=item;
-        return {name,phone,email,tdee,totalFats,totalCarbs,totalProteins,id}
-     })
+ 
     return (
         <div>
         {imported && <Notification message="Successfully Imported"/>}
@@ -123,18 +138,36 @@ const AllDietTable = () => {
     <button type="submit" onClick={clickHandler}>Submit</button>
     </form>}
           
-           <MaterialTable actions={[{
-               icon:"info",
-               tooltip:"view diet",
-               onClick:(event,rowData)=>
+          
+<Paper style={{maxWidth:"960px",margin:"0 auto",overflow:"auto"}} className={classes.pageContent}>
+<TblContainer>
+    <TblHead/>
+    <TableBody>
+        {
+            recordsAfterPagingAndSorting().map(item=>(
+                <TableRow key={item.id}>
+                    <TableCell > <Icon style={{cursor:"pointer"}} onClick={(event)=>
                {
                 
-                navigate(`/diet/${rowData.id}`)
+                navigate(`/diet/${item.id}`)
                     
-               }
-           }]} style={{maxWidth:"800px",margin:"0 auto"}} title="Diet Table" data={settingData} columns={columns} 
-     
-/>
+               }}>info</Icon>  </TableCell>
+                    <TableCell> {item.name} </TableCell>
+                    <TableCell> {item.phone} </TableCell>
+                    <TableCell> {item.email} </TableCell>
+                    <TableCell> {item.tdee} </TableCell>
+                    <TableCell> {item.totalFats} </TableCell>
+                    <TableCell> {item.totalCarbs} </TableCell>
+                    <TableCell> {item.totalProteins} </TableCell>
+                </TableRow>
+            ))
+        }
+
+    </TableBody>
+
+</TblContainer>
+<TblPagination/>
+</Paper>
         </div>
     )
 }
