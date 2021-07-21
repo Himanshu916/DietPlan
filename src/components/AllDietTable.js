@@ -4,15 +4,22 @@ import TableBody from '@material-ui/core/TableBody';
 import axios from "axios"
 import Notification from './Notification'
 import useTable from './NewTable'
-import { Paper,makeStyles } from '@material-ui/core';
+import { Paper,makeStyles, InputAdornment } from '@material-ui/core';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Icon from '@material-ui/core/Icon';
+import Input from "../components/Input"
+import { Toolbar } from '@material-ui/core';
+
+
 
 const useStyles = makeStyles((theme)=>({
     pageContent:{
         margin:theme.spacing(5),
         padding:theme.spacing(3)
+    },
+    searchInput:{
+        width:'75%'
     }
 }))
 
@@ -48,10 +55,12 @@ const AllDietTable = () => {
     const classes = useStyles();
     const navigate = useNavigate()
     const [allDiets,setAllDiets] = useState([]);
+    const [filter,setFilter] = useState({fn:items=>{return items;}});
     const [file,setFile]=useState(null)
     const [importButton,setImport] = useState(false)
     const [imported,setImported] = useState(false)
-    const {TblContainer,TblHead,TblPagination,recordsAfterPagingAndSorting} = useTable(allDiets,headCells);
+    const {TblContainer,TblHead,TblPagination,recordsAfterPagingAndSorting} = useTable(allDiets,headCells,filter);
+    
    
 
     // const convertToJSON=(header,fileData)=>
@@ -127,7 +136,22 @@ const AllDietTable = () => {
             }
         })()
     },[])
-    
+    const handleSearch =({target})=>
+    {
+        setFilter({
+            fn:items=>{
+                if(target.value == "")
+                return items
+                else
+                {
+                    return items.filter(item=>{
+                        
+                        return (item.name.toLowerCase()).includes(target.value.toLowerCase()) ||(item.email.toLowerCase()).includes(target.value.toLowerCase())   } )
+                }
+            }
+        })
+
+    }
  
     return (
         <div>
@@ -140,6 +164,18 @@ const AllDietTable = () => {
           
           
 <Paper style={{maxWidth:"960px",margin:"0 auto",overflow:"auto"}} className={classes.pageContent}>
+<Toolbar>
+    <Input className={classes.searchInput}
+        label="Search Diet"
+        InputProps={{
+            startAdornment:(<InputAdornment>
+                <Icon>Search</Icon>
+            </InputAdornment>)
+        
+        }}
+        onChange={handleSearch}
+    />
+</Toolbar>
 <TblContainer>
     <TblHead/>
     <TableBody>

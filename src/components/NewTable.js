@@ -5,7 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 
-export default function useTable(records,headCells){
+export default function useTable(records,headCells,filter){
 
     const pages = [10,20,30]
     const [page,setPage] = useState(0)
@@ -46,6 +46,7 @@ const handleChangeRowsPerPage=(event)=>
     setRowsPerPage(parseInt(event.target.value,10))
     setPage(0)
 }
+
 const TblPagination=()=>
 (
 <TablePagination 
@@ -63,7 +64,7 @@ onChangeRowsPerPage={handleChangeRowsPerPage}
 
 const recordsAfterPagingAndSorting=()=>
 {
-    return records.slice(page*rowsPerPage,(page+1)*rowsPerPage)
+    return filter.fn(records).slice(page*rowsPerPage,(page+1)*rowsPerPage)
 }
     return {
         TblContainer,
