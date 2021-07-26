@@ -193,7 +193,7 @@ const AllDietTable = () => {
                     <TableCell> {item.email} </TableCell>
                     <TableCell> {item.tdee} </TableCell>
                     <TableCell> {item.totalFats} </TableCell>
-                    <TableCell> {item.totalCarbs} </TableCell>
+                    <TableCell> {item.totalCarbs/4} </TableCell>
                     <TableCell> {item.totalProteins} </TableCell>
                 </TableRow>
             ))

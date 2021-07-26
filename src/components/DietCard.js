@@ -134,7 +134,7 @@ import {Link} from "react-router-dom"
               </li>
               <li>
                   <h2>Total Carbohydates</h2>
-                  <h4>{diet.totalCarbs} calories</h4>
+                  <h4>{diet.totalCarbs/4} grams</h4>
               </li>
               <li>
                   <h2>Total Proteins</h2>
