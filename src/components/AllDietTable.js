@@ -145,8 +145,11 @@ const AllDietTable = () => {
                 else
                 {
                     return items.filter(item=>{
-                        
+                     
+                        if(item.name===null || item.email===null )
+                        return 
                         return (item.name.toLowerCase()).includes(target.value.toLowerCase()) ||(item.email.toLowerCase()).includes(target.value.toLowerCase())   } )
+                    
                 }
             }
         })
@@ -196,9 +199,9 @@ const AllDietTable = () => {
                     <TableCell> {item.totalCarbs/4} </TableCell>
                     <TableCell> {item.totalProteins} </TableCell>
                 </TableRow>
+             
             ))
         }
-
     </TableBody>
 
 </TblContainer>
